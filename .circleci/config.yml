@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Do POST request to ngrock url
           command: |
-            curl --location --request POST 'http://f97075584da5.ngrok.io' \
+            curl --location --request POST 'http://f97075584da5.ngrok.io/pipeline/register' \
               --header 'Content-Type: application/json' \
               --data-raw '{
                 "circleci-build-url": "'$CIRCLE_BUILD_URL'"
