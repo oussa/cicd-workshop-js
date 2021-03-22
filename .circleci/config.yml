@@ -30,6 +30,21 @@ jobs:
       - store_artifacts:
           path: ~/test-results
   
+  post-request:
+    docker:
+      - image: cimg/node:15.10.0
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Do POST request to ngrock url
+          command: |
+            curl --location --request POST 'http://f97075584da5.ngrok.io' \
+              --header 'Content-Type: application/json' \
+              --data-raw '{
+                "circleci-build-url": "'$CIRCLE_BUILD_URL'"
+              }'
+
   dependency-vulnerability-scan:
     docker:
       - image: cimg/node:15.10.0
@@ -72,6 +87,7 @@ jobs:
 workflows:
   node-test-and-deploy:
     jobs:
+      - post-request
       - build-and-test:
           matrix:
             parameters:
